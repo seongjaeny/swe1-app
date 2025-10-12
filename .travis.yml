@@ -1,15 +1,29 @@
-#os: linux
-#dist: jammy
 language: python
 python:
-  - "3.12"
+  - "3.13"
+
+env:
+  - DJANGO_SETTINGS_MODULE=mysite.settings
 
 install:
-  - python --version
+  - pip install -r requirements.txt
+  - pip install black flake8 coverage coveralls
 
 script:
-  - echo "Travis basic build works."
+  - black --check .               # 코드 포매팅 검사
+  - flake8 .                      # 스타일 린트
+  - coverage run manage.py test   # 테스트 전체 실행
 
-branches:
-  only:
-    - main
+after_success:
+  - coveralls                     # 커버리지 리포팅
+
+deploy:
+  provider: elasticbeanstalk
+  region: "us-east-1"
+  app: "swe1-app"         # 자신의 EB 앱 이름
+  env: "swe-sj4771"         # EB 환경 이름
+  bucket_name: "elasticbeanstalk-us-east-1-423158040784" # EB 관련 S3 버킷명
+  on:
+    branch: main                # master 브랜치에 push될 때만 배포
+  skip_cleanup: true
+
