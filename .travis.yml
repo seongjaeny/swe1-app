@@ -3,7 +3,9 @@ python:
   - "3.13"
 
 env:
-  - DJANGO_SETTINGS_MODULE=mysite.settings
+  global:
+    - DJANGO_SETTINGS_MODULE=mysite.settings
+    - USE_SQLITE_FOR_TESTS=1
 
 branches:
   only:
