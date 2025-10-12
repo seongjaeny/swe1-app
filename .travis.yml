@@ -29,7 +29,8 @@ deploy:
   region: "us-east-1"
   app: "swe1-app"         # 자신의 EB 앱 이름
   env: "swe-sj4771"         # EB 환경 이름
+  bucket: "elasticbeanstalk-us-east-1-423158040784"
   on:
-    branch: main                # master 브랜치에 push될 때만 배포
+    branch: main
   skip_cleanup: true
 
