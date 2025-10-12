@@ -1,5 +1,5 @@
-os: linux
-dist: jammy
+#os: linux
+#dist: jammy
 language: python
 python:
   - "3.12"
@@ -9,3 +9,7 @@ install:
 
 script:
   - echo "Travis basic build works."
+
+branches:
+  only:
+    - main
