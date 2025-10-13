@@ -3,11 +3,19 @@ python:
   - "3.13"
 
 env:
-  - DJANGO_SETTINGS_MODULE=mysite.settings
+  global:
+    - DJANGO_SETTINGS_MODULE=mysite.settings
+    - USE_SQLITE_FOR_TESTS=1
+
+branches:
+  only:
+    - main
+    - test
 
 install:
   - pip install -r requirements.txt
   - pip install black flake8 coverage coveralls
+  - pip install awscli
 
 script:
   - black --check .               # 코드 포매팅 검사
@@ -17,12 +25,17 @@ script:
 after_success:
   - coveralls                     # 커버리지 리포팅
 
+before_deploy:
+  - echo "Checking AWS credentials..."
+  - aws s3 ls s3://elasticbeanstalk-us-east-1-423158040784 --region us-east-1
+
 deploy:
   provider: elasticbeanstalk
   region: "us-east-1"
   app: "swe1-app"         # 자신의 EB 앱 이름
   env: "swe-sj4771"         # EB 환경 이름
-  bucket_name: "elasticbeanstalk-us-east-1-423158040784" # EB 관련 S3 버킷명
+  bucket: "elasticbeanstalk-us-east-1-423158040784"
   on:
-    branch: main                # master 브랜치에 push될 때만 배포
+    branch: main
   skip_cleanup: true
+
