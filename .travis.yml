@@ -26,4 +26,3 @@ deploy:
   on:
     branch: main                # master 브랜치에 push될 때만 배포
   skip_cleanup: true
-
