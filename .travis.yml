@@ -24,6 +24,10 @@ script:
 after_success:
   - coveralls                     # 커버리지 리포팅
 
+before_deploy:
+  - echo "Checking AWS credentials..."
+  - aws s3 ls s3://elasticbeanstalk-us-east-1-423158040784 --region us-east-1
+
 deploy:
   provider: elasticbeanstalk
   region: "us-east-1"
