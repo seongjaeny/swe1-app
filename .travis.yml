@@ -15,6 +15,7 @@ branches:
 install:
   - pip install -r requirements.txt
   - pip install black flake8 coverage coveralls
+  - pip install awscli
 
 script:
   - black --check .               # 코드 포매팅 검사
